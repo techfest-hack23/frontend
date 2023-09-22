@@ -1,0 +1,19 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons *ngIf="!showSearchbar" slot="start">
+      <ion-back-button [defaultHref]="'/clients'"></ion-back-button>
+      <!-- <ion-menu-button></ion-menu-button> -->
+    </ion-buttons>
+    <ion-title *ngIf="!ios && !showSearchbar && !loading">{{ record.first_name }} {{ record.last_name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" id="shawn">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large" *ngIf="!loading">{{ record.first_name }} {{ record.last_name }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <h1 id="shawn">{{ record.nick_name }}</h1>
+</ion-content>
