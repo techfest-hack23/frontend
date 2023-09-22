@@ -13,7 +13,8 @@ import feathersAuthClient2 from '@feathersjs/authentication-client';
 @Injectable()
 export class Feathers {
   private _feathers = feathers(); // init socket.io
-  private _socket = io(`http://${window.location.hostname}:3030`);
+  // private _socket = io(`http://${window.location.hostname}:3030`);
+  private _socket = io(`https://5wd42wdit7.us-east-1.awsapprunner.com`);
 
   private feathersAuthClient = require('@feathersjs/authentication-client').default;
 
