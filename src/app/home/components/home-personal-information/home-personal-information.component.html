@@ -1,19 +1,39 @@
-<ion-content>
+<ion-content *ngIf="!loading && record">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Provided Phone Number</ion-card-title>
+      <ion-card-subtitle>Details</ion-card-subtitle>
     </ion-card-header>
-    <ion-list> </ion-list>
+    <ion-card-content>
+      <p>Name: {{ record.first_name }} {{ record.last_name }}</p>
+      <p>Date of birth: {{ record.date_of_birth }}</p>
+    </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Alternative Phone Numbers</ion-card-title>
+      <ion-card-subtitle>Cabin</ion-card-subtitle>
     </ion-card-header>
-    <ion-list> </ion-list>
+    <ion-card-content *ngIf="record.assigned_cabin">
+      {{ record.assigned_cabin }}
+    </ion-card-content>
+    <ion-card-content *ngIf="!record.assigned_cabin">
+      No cabin has been assigned, please check back later.
+    </ion-card-content>
   </ion-card>
 
   <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Community Provided Number</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content *ngIf="record.assigned_phone_number">
+      {{ record.assigned_phone_number }}
+    </ion-card-content>
+    <ion-card-content *ngIf="!record.assigned_phone_number">
+      No phone number has been assigned, please check back later.
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <ion-card>
     <ion-card-header>
       <ion-card-title>Addresses</ion-card-title>
     </ion-card-header>
@@ -32,5 +52,5 @@
       <ion-card-title>Known Contacts</ion-card-title>
     </ion-card-header>
     <ion-list> </ion-list>
-  </ion-card>
+  </ion-card> -->
 </ion-content>

@@ -11,7 +11,8 @@ const routes: Routes = [
     { path: 'users', loadChildren: () => import('./users/users.module').then((m) => m.UsersModule) },
     { path: 'providers', loadChildren: () => import('./providers/providers.module').then((m) => m.ProvidersModule) },
     { path: 'clients', loadChildren: () => import('./clients/clients.module').then((m) => m.ClientsModule) },
-    { path: 'settomgs', loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule) },
+    { path: 'documents', loadChildren: () => import('./documents/documents.module').then((m) => m.DocumentsModule) },
+    { path: 'settings', loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule) },
   ]),
 
   // Fallback when no prior route is matched
@@ -19,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, useHash: true })],
   exports: [RouterModule],
   providers: [],
 })

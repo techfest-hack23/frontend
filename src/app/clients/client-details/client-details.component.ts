@@ -19,6 +19,13 @@ export class ClientDetailsComponent implements OnInit {
   // @ts-ignore
   @ViewChild('scheduleList', { static: true }) scheduleList: IonList;
 
+  cabins: any = [];
+  cabinCount: number = 40;
+
+  providers: any = [];
+
+  smsNumbers = ['+14252426798', '+13022401194', '+13023033884'];
+
   ios: boolean = false;
   dayIndex: number = 0;
   queryText: string = '';
@@ -41,13 +48,20 @@ export class ClientDetailsComponent implements OnInit {
     public router: Router,
     public route: ActivatedRoute,
     public routerOutlet: IonRouterOutlet,
-    public toastCtrl: ToastController,
+    public toastController: ToastController,
     private dataService: DataService,
     public config: Config
   ) {}
 
   ngOnInit(): void {
     this.ios = this.config.get('mode') === 'ios';
+
+    while (this.cabins.length < this.cabinCount) {
+      // this.cabinCount ++;
+      let cabinNum = this.cabins.length + 1;
+      let cabin = `Cabin #${cabinNum}`;
+      this.cabins.push(cabin);
+    }
 
     this.getData();
   }
@@ -58,14 +72,59 @@ export class ClientDetailsComponent implements OnInit {
     this.loadingOverlay = await this.loadingCtrl.create();
     await this.loadingOverlay.present();
 
+    this.providers = await this.dataService.findRecords('users', { is_provider: true });
+    this.providers = this.providers.data;
     this.route.params.subscribe(async (p) => {
       console.log(p);
-      this.record = await this.dataService.getRecord('clients', p['id']);
+      this.record = await this.dataService.getRecord('users', p['id']);
+
+      // let query = await this.dataService.findRecords('users', {
+      //   _id: p['id']
+      // });
+      // console.log(query)
 
       console.log(this.record);
       this.loading = false;
       this.loadingOverlay.dismiss();
     });
+  }
+
+  async selectChange() {
+    try {
+      await this.dataService.updateRecord('users', this.record._id, this.record);
+    } catch (e) {
+      const toast = await this.toastController.create({
+        message: 'Error saving changes',
+        duration: 3000,
+        color: 'danger',
+        position: 'bottom',
+      });
+
+      await toast.present();
+    }
+  }
+
+  async saveRecord() {
+    try {
+      await this.dataService.updateRecord('users', this.record._id, this.record);
+      const toast = await this.toastController.create({
+        message: 'Changes Saved',
+        duration: 1500,
+        color: 'success',
+        position: 'bottom',
+      });
+
+      await toast.present();
+    } catch (e) {
+      const toast = await this.toastController.create({
+        message: 'Error saving changes',
+        duration: 3000,
+        color: 'danger',
+        position: 'bottom',
+      });
+
+      await toast.present();
+    }
   }
 
   presentFilter() {}

@@ -39,6 +39,8 @@ export class ClientsComponent implements OnInit {
 
   records$: Observable<any>;
 
+  record: any = {};
+
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name: string;
 
@@ -59,10 +61,10 @@ export class ClientsComponent implements OnInit {
     this.updateList();
   }
 
-  async getData(limit: any, skip: any) {
-    const response = await this.dataService.findRecords('clients', { $limit: limit, $skip: skip });
-    return response;
-  }
+  // async getData(limit: any, skip: any) {
+  //   const response = await this.dataService.findRecords('users', { $limit: limit, $skip: skip, is_client: true });
+  //   return response;
+  // }
 
   async updateList() {
     this.loading = true;
@@ -71,14 +73,16 @@ export class ClientsComponent implements OnInit {
     await this.loadingOverlay.present();
 
     this.records$ = this.dataService
-      .records$('clients', {
+      .records$('users', {
+        is_client: true,
         $sort: {
           last_name: 1,
         },
       })
       .pipe(map((l: Paginated<any>) => l.data));
 
-    this.records$.subscribe(async () => {
+    this.records$.subscribe(async (clients) => {
+      console.log(clients);
       this.loadingOverlay.dismiss();
       this.loading = false;
     });
@@ -94,8 +98,10 @@ export class ClientsComponent implements OnInit {
     this.modal.dismiss(null, 'cancel');
   }
 
-  confirm() {
+  async create() {
     this.modal.dismiss(this.name, 'confirm');
+    this.record['is_client'] = true;
+    await this.dataService.createRecord('users', this.record);
   }
 
   onWillDismiss(event: Event) {
