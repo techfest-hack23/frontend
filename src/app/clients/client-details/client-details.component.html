@@ -1,0 +1,167 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons *ngIf="!showSearchbar" slot="start">
+      <ion-back-button [defaultHref]="'/clients'"></ion-back-button>
+      <!-- <ion-menu-button></ion-menu-button> -->
+    </ion-buttons>
+    <ion-title *ngIf="!ios && !showSearchbar && !loading">{{ record.first_name }} {{ record.last_name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large" *ngIf="!loading">{{ record.first_name }} {{ record.last_name }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Details</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">User Name</ion-label>
+          <ion-input type="text" placeholder="User Name" [(ngModel)]="record.email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">First Name</ion-label>
+          <ion-input type="text" placeholder="First Name" [(ngModel)]="record.first_name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Last Name</ion-label>
+          <ion-input type="text" placeholder="Last Name" [(ngModel)]="record.last_name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Nick Name</ion-label>
+          <ion-input type="text" placeholder="Nick Name" [(ngModel)]="record.nick_name"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="record.is_client">
+          <ion-label position="stacked">Birthday</ion-label>
+          <ion-input type="text" placeholder="Birthday" [(ngModel)]="record.date_of_birth"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="record.is_client">
+          <ion-label position="stacked">Known Aliases</ion-label>
+          <ion-textarea [(ngModel)]="record.known_aliases" placeholder="Document known aliases"></ion-textarea>
+        </ion-item>
+
+        <ion-item *ngIf="record.is_client">
+          <ion-label position="stacked">Known Locations</ion-label>
+          <ion-textarea [(ngModel)]="record.known_locations" placeholder="Document known locations"></ion-textarea>
+        </ion-item>
+
+        <ion-item *ngIf="record.is_client">
+          <ion-label position="stacked">Known Phone Numbers</ion-label>
+          <ion-textarea
+            [(ngModel)]="record.known_phone_numbers"
+            placeholder="Document known phone numbers"
+          ></ion-textarea>
+        </ion-item>
+
+        <ion-item *ngIf="record.is_client">
+          <ion-label position="stacked">Known Medications</ion-label>
+          <ion-textarea [(ngModel)]="record.known_medications" placeholder="Document known medications"></ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" (click)="saveRecord()">Save</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="record.is_client">
+    <ion-card-header>
+      <ion-card-subtitle>Cabin Assignment</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-select
+            [(ngModel)]="record.assigned_cabin"
+            (ionChange)="selectChange()"
+            label="Select Cabin"
+            placeholder="Pick a cabin"
+          >
+            <ion-select-option *ngFor="let c of cabins" value="{{ c }}">{{ c }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Phone Number Assignment</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-select
+            [(ngModel)]="record.assigned_phone_number"
+            (ionChange)="selectChange()"
+            label-placement="stacked"
+            label="Select Number"
+            placeholder="Select Number"
+          >
+            <ion-select-option *ngFor="let c of smsNumbers" value="{{ c }}">{{ c }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="record.is_client">
+    <ion-card-header>
+      <ion-card-subtitle>Case Management</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">SUD Provider</ion-label>
+          <ion-select
+            [(ngModel)]="record.sud_provider"
+            (ionChange)="selectChange()"
+            label-placement="stacked"
+            label="Select Provider"
+            placeholder="Select Provider"
+          >
+            <ion-select-option *ngFor="let provider of providers" value="{{ provider._id }}">{{
+              provider.email
+            }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">MH Provider</ion-label>
+          <ion-select
+            [(ngModel)]="record.mh_provider"
+            (ionChange)="selectChange()"
+            label-placement="stacked"
+            label="Select Provider"
+            placeholder="Select Provider"
+          >
+            <ion-select-option *ngFor="let c of cabins" value="{{ c }}">{{ c }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Notes</ion-label>
+          <ion-textarea
+            [(ngModel)]="record.case_management_notes"
+            placeholder="Add case management notes or comments here..."
+          ></ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" (click)="saveRecord()">Save</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

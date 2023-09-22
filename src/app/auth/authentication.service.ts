@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { Credentials, CredentialsService } from './credentials.service';
+import { AuthService } from '@app/@shared/services/auth.service';
+import { DataService } from '@app/@shared/services/data.service';
 
 export interface LoginContext {
   username: string;
@@ -17,21 +19,52 @@ export interface LoginContext {
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(private credentialsService: CredentialsService) {}
+  constructor(
+    private credentialsService: CredentialsService,
+    private authService: AuthService,
+    private dataService: DataService
+  ) {}
 
   /**
    * Authenticates the user.
    * @param context The login parameters.
    * @return The user credentials.
    */
-  login(context: LoginContext): Observable<Credentials> {
+  login(context: LoginContext): Promise<any> {
     // Replace by proper authentication call
     const data = {
       username: context.username,
+      profile: {},
+      roles: [],
+      groups: [],
       token: '123456',
     };
-    this.credentialsService.setCredentials(data, context.remember);
-    return of(data);
+
+    const credentials = {
+      email: context.username,
+      password: context.password,
+      strategy: 'local',
+    };
+
+    return new Promise((resolve: any) => {
+      this.authService
+        .logIn(credentials)
+        .then(async (creds) => {
+          data.profile = creds.user;
+          data.token = creds.accessToken;
+
+          // const roles = await this.dataService.findRecords('user_roles', { user_id: creds.user.id });
+          // const groups = await this.dataService.findRecords('user_groups', { user_id: creds.user.id });
+          // data.roles = roles.data;
+          // data.groups = groups.data;
+          this.credentialsService.setCredentials(data);
+          resolve(data);
+        })
+        .catch((error) => {
+          alert(error.message);
+          window.location.reload();
+        });
+    });
   }
 
   /**

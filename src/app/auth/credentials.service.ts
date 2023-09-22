@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 export interface Credentials {
   // Customize received credentials here
   username: string;
+  profile: any;
+  roles: any;
+  groups: any;
   token: string;
 }
 

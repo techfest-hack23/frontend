@@ -10,9 +10,7 @@
                 class="profile-button"
                 color="light"
                 (click)="showProfileActions()"
-                shape="round"
                 fill="outline"
-                size="small"
                 expand="block"
               >
                 <ion-icon name="person"></ion-icon> {{ username }}
@@ -20,14 +18,96 @@
             </ion-menu-toggle>
           </div>
         </div>
-        <ion-list lines="full" class="ion-no-padding">
+        <ion-list lines="none" class="ion-no-padding" *ngIf="!isLoading">
+          <!-- <ion-list-header> Main Menu </ion-list-header> -->
+          <ion-item *ngIf="impersonating">
+            <ion-badge color="secondary">{{ current_participant.nick_name }} selected</ion-badge>
+          </ion-item>
           <ion-menu-toggle auto-hide="false">
-            <ion-item [routerDirection]="'root'" routerLink="/home" routerLinkActive="active">
+            <ion-item [routerDirection]="'root'" routerLink="/home" routerLinkActive="selected">
+              <ion-icon slot="start" name="home-outline"></ion-icon>
               <ion-label><span translate>Home</span></ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false">
-            <ion-item [routerDirection]="'root'" routerLink="/about" routerLinkActive="active">
+            <ion-item [routerDirection]="'root'" routerLink="/messages" routerLinkActive="selected">
+              <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+              <ion-label><span translate>Messages</span></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" routerLink="/calendar" routerLinkActive="selected">
+              <ion-icon slot="start" name="calendar-outline"></ion-icon>
+              <ion-label><span translate>Calendar</span></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" routerLink="/tasks" routerLinkActive="selected">
+              <ion-icon slot="start" name="folder-outline"></ion-icon>
+              <ion-label><span translate>Tasks</span></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" routerLink="/documents" routerLinkActive="selected">
+              <ion-icon slot="start" name="documents-outline"></ion-icon>
+              <ion-label><span translate>Documents</span></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <ion-list
+          lines="none"
+          class="ion-no-padding"
+          *ngIf="
+            !isLoading &&
+            (authenticated_user.profile.role == 'community-navigator' ||
+              authenticated_user.profile.role == 'community-admin')
+          "
+        >
+          <!-- <ion-list-header> Community Navigator </ion-list-header> -->
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" routerLink="/clients" routerLinkActive="selected">
+              <ion-icon slot="start" name="people-outline"></ion-icon>
+              <ion-label><span translate>Clients</span></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" routerLink="/providers" routerLinkActive="selected">
+              <ion-icon slot="start" name="business-outline"></ion-icon>
+              <ion-label><span translate>Providers</span></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <!-- <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" routerLink="/community/calendar" routerLinkActive="selected">
+              <ion-icon slot="start" name="calendar-outline"></ion-icon>
+              <ion-label><span translate>Community Calendar</span></ion-label>
+            </ion-item>
+          </ion-menu-toggle> -->
+
+          <!-- <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" routerLink="/community/forms" routerLinkActive="selected">
+              <ion-icon slot="start" name="document-text-outline"></ion-icon>
+              <ion-label><span translate>Forms & Templates</span></ion-label>
+            </ion-item>
+          </ion-menu-toggle> -->
+        </ion-list>
+
+        <ion-list lines="none" class="ion-no-padding">
+          <!-- <ion-list-header> Options & more </ion-list-header> -->
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" routerLink="/settings" routerLinkActive="selected">
+              <ion-icon slot="start" name="settings-outline"></ion-icon>
+              <ion-label><span translate>Settings</span></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" routerLink="/about" routerLinkActive="selected">
+              <ion-icon slot="start" name="browsers-outline"></ion-icon>
               <ion-label><span translate>About</span></ion-label>
             </ion-item>
           </ion-menu-toggle>
