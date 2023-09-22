@@ -44,10 +44,10 @@
 
   <ion-list #scheduleList *ngIf="records$ | async as records">
     <ion-item-sliding *ngFor="let record of messageGroups" #slidingItem>
-      <ion-item routerLink="/messages/details/{{ record._id }}">
+      <ion-item routerLink="/messages/details/{{ record.contact }}">
         <ion-label>
-          <h3>{{ record.message_from }}</h3>
-          <p>{{ record.message_body }}</p>
+          <h3>{{ record.contact }}</h3>
+          <p>{{ record.messages[0].message_body }}</p>
         </ion-label>
         <!-- <ion-label>
           <p>{{ record.assigned_phone_number }}</p>

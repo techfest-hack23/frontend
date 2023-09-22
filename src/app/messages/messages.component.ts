@@ -84,29 +84,34 @@ export class MessagesComponent implements OnInit {
 
     const creds = this.credService.credentials;
     this.user = await this.dataService.getRecord('users', creds.profile._id);
-    console.log(this.user);
 
     this.records$ = this.dataService
       .records$('messages', {
         folder: this.segment,
         message_sent_to: this.user.assigned_phone_number,
+        $sort: {
+          created: -1,
+        },
       })
       .pipe(map((l: Paginated<any>) => l.data));
 
     this.records$.subscribe(async (messages) => {
       const grouped = await this.groupByKey(messages, 'message_from');
       const grouppedKeys = Object.keys(grouped);
-      let allGroups = [];
+      this.messageGroups = [];
       for (let k of grouppedKeys) {
         console.log(k);
         let newGroup = {
           contact: k,
+
           messages: grouped[k],
         };
 
         this.messageGroups.push(newGroup);
       }
       console.log(this.messageGroups);
+      this.loading = false;
+      this.loadingOverlay.dismiss();
     });
   }
   presentFilter() {}

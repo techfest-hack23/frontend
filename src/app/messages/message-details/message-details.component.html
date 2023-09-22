@@ -4,21 +4,24 @@
       <ion-back-button [defaultHref]="'/clients'"></ion-back-button>
       <!-- <ion-menu-button></ion-menu-button> -->
     </ion-buttons>
-    <ion-title *ngIf="!ios && !showSearchbar && !loading">Message From: {{ record.message_from }}</ion-title>
+    <ion-title *ngIf="!ios && !showSearchbar && !loading">{{ record.contact }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large" *ngIf="!loading">{{ record.first_name }} {{ record.last_name }}</ion-title>
+      <ion-title size="large" *ngIf="!loading">{{ record.contact }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-card>
-    <ion-card-subtitle></ion-card-subtitle>
-    <ion-card-content>
-      {{ record.message_body }}
-    </ion-card-content>
-  </ion-card>
+  <ion-list lines="none" *ngIf="records$ | async as records">
+    <ion-item *ngFor="let r of records">
+      <ion-label class="ion-text-wrap">
+        <div class="flex-container">
+          <ion-badge>{{ r.message_body }}</ion-badge>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
