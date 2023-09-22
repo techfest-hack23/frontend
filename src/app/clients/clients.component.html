@@ -47,7 +47,7 @@
           <ion-buttons slot="start">
             <ion-button (click)="cancel()">Cancel</ion-button>
           </ion-buttons>
-          <ion-title>Welcome</ion-title>
+          <ion-title>Add Client</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
           </ion-buttons>
@@ -55,8 +55,18 @@
       </ion-header>
       <ion-content class="ion-padding">
         <ion-item>
-          <ion-label position="stacked">Enter your name</ion-label>
-          <ion-input type="text" placeholder="Your name" [(ngModel)]="name"></ion-input>
+          <ion-label position="stacked">First Name</ion-label>
+          <ion-input type="text" placeholder="First Name" [(ngModel)]="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Last Name</ion-label>
+          <ion-input type="text" placeholder="Last Name" [(ngModel)]="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Nick Name</ion-label>
+          <ion-input type="text" placeholder="Nick Name" [(ngModel)]="name"></ion-input>
         </ion-item>
       </ion-content>
     </ng-template>
