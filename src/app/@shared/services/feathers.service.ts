@@ -13,11 +13,7 @@ import feathersAuthClient2 from '@feathersjs/authentication-client';
 @Injectable()
 export class Feathers {
   private _feathers = feathers(); // init socket.io
-  //private _socket = io('https://sde.shawnmbradley.com');      // init feathers
   private _socket = io(`http://${window.location.hostname}:3030`);
-  // private _socket = io('https://vr.faas.chst.io');      // init feathers
-  //private _socket = io('https://rounds.childrens.com');
-  //private _socket = io('https://roundsdev.childrens.com'); // VR dev server
 
   private feathersAuthClient = require('@feathersjs/authentication-client').default;
 
