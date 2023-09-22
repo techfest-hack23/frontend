@@ -8,9 +8,10 @@ import { MessagesSentComponent } from './messages-sent/messages-sent.component';
 import { SharedModule } from '@app/@shared';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MessageDetailsComponent } from './message-details/message-details.component';
 
 @NgModule({
-  declarations: [MessagesComponent, MessagesInboxComponent, MessagesSentComponent],
+  declarations: [MessagesComponent, MessagesInboxComponent, MessagesSentComponent, MessageDetailsComponent],
   imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule, IonicModule, MessagesRoutingModule],
 })
 export class MessagesModule {}

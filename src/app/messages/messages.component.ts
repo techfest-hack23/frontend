@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '@app/@shared/services/data.service';
+import { CredentialsService } from '@app/auth';
 import { Paginated } from '@feathersjs/feathers';
 import {
   AlertController,
@@ -30,7 +31,7 @@ export class MessagesComponent implements OnInit {
   ios: boolean = false;
   dayIndex: number = 0;
   queryText: string = '';
-  segment: string = 'all';
+  segment: string = 'inbox';
   excludeTracks: any = [];
   shownSessions: any = [];
   groups: any = [];
@@ -42,7 +43,11 @@ export class MessagesComponent implements OnInit {
 
   records$: Observable<any>;
 
+  messageGroups: any = [];
+
   record: any = {};
+
+  user: any = {};
 
   constructor(
     public alertCtrl: AlertController,
@@ -52,12 +57,23 @@ export class MessagesComponent implements OnInit {
     public routerOutlet: IonRouterOutlet,
     public toastCtrl: ToastController,
     public dataService: DataService,
+    public credService: CredentialsService,
     public config: Config
   ) {}
 
   async ngOnInit() {
     this.ios = this.config.get('mode') === 'ios';
     // await this.getData();
+
+    await this.updateList();
+  }
+
+  async groupByKey(array, key) {
+    return array.reduce((hash, obj) => {
+      if (obj[key] === undefined) return hash;
+      const groupped = Object.assign(hash, { [obj[key]]: (hash[obj[key]] || []).concat(obj) });
+      return groupped;
+    }, {});
   }
 
   async updateList() {
@@ -66,19 +82,31 @@ export class MessagesComponent implements OnInit {
     this.loadingOverlay = await this.loadingCtrl.create();
     await this.loadingOverlay.present();
 
+    const creds = this.credService.credentials;
+    this.user = await this.dataService.getRecord('users', creds.profile._id);
+    console.log(this.user);
+
     this.records$ = this.dataService
-      .records$('users', {
-        is_client: true,
-        $sort: {
-          last_name: 1,
-        },
+      .records$('messages', {
+        folder: this.segment,
+        message_sent_to: this.user.assigned_phone_number,
       })
       .pipe(map((l: Paginated<any>) => l.data));
 
-    this.records$.subscribe(async (clients) => {
-      console.log(clients);
-      this.loadingOverlay.dismiss();
-      this.loading = false;
+    this.records$.subscribe(async (messages) => {
+      const grouped = await this.groupByKey(messages, 'message_from');
+      const grouppedKeys = Object.keys(grouped);
+      let allGroups = [];
+      for (let k of grouppedKeys) {
+        console.log(k);
+        let newGroup = {
+          contact: k,
+          messages: grouped[k],
+        };
+
+        this.messageGroups.push(newGroup);
+      }
+      console.log(this.messageGroups);
     });
   }
   presentFilter() {}
