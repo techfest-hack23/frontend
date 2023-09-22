@@ -37,6 +37,7 @@
     "@feathersjs/feathers": "^4.5.8",
     "@feathersjs/socketio-client": "^4.5.8",
     "feathers-reactive": "^0.8.2",
+    "socket.io-client": "^2.3.1",
     "rxjs": "^7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

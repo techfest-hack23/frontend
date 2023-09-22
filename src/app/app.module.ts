@@ -14,6 +14,10 @@ import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { Feathers } from './@shared/services/feathers.service';
+import { DataService } from './@shared/services/data.service';
+import { AuthService } from './@shared/services/auth.service';
+import { AuthGuard } from './@shared/guards/auth.guard';
 
 @NgModule({
   imports: [
@@ -46,6 +50,10 @@ import { AppRoutingModule } from './app-routing.module';
       provide: RouteReuseStrategy,
       useClass: RouteReusableStrategy,
     },
+    Feathers,
+    DataService,
+    AuthService,
+    AuthGuard,
   ],
   bootstrap: [AppComponent],
 })
