@@ -58,12 +58,12 @@ export class ShellComponent implements OnInit {
         role: 'destructive',
         handler: () => this.logout(),
       },
-      {
-        text: this.translateService.instant('Impersonate Participant'),
-        icon: this.platform.is('ios') ? undefined : 'person-circle-outline',
-        role: 'destructive',
-        handler: () => this.impersonateParticipant(),
-      },
+      // {
+      //   text: this.translateService.instant('Impersonate Participant'),
+      //   icon: this.platform.is('ios') ? undefined : 'person-circle-outline',
+      //   role: 'destructive',
+      //   handler: () => this.impersonateParticipant(),
+      // },
       {
         text: this.translateService.instant('Change language'),
         icon: this.platform.is('ios') ? undefined : 'globe',

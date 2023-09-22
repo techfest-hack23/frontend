@@ -22,6 +22,11 @@
     <ion-card-content>
       <ion-list>
         <ion-item>
+          <ion-label position="stacked">User Name</ion-label>
+          <ion-input type="text" placeholder="User Name" [(ngModel)]="record.email"></ion-input>
+        </ion-item>
+
+        <ion-item>
           <ion-label position="stacked">First Name</ion-label>
           <ion-input type="text" placeholder="First Name" [(ngModel)]="record.first_name"></ion-input>
         </ion-item>
@@ -36,22 +41,22 @@
           <ion-input type="text" placeholder="Nick Name" [(ngModel)]="record.nick_name"></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="record.is_client">
           <ion-label position="stacked">Birthday</ion-label>
           <ion-input type="text" placeholder="Birthday" [(ngModel)]="record.date_of_birth"></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="record.is_client">
           <ion-label position="stacked">Known Aliases</ion-label>
           <ion-textarea [(ngModel)]="record.known_aliases" placeholder="Document known aliases"></ion-textarea>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="record.is_client">
           <ion-label position="stacked">Known Locations</ion-label>
           <ion-textarea [(ngModel)]="record.known_locations" placeholder="Document known locations"></ion-textarea>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="record.is_client">
           <ion-label position="stacked">Known Phone Numbers</ion-label>
           <ion-textarea
             [(ngModel)]="record.known_phone_numbers"
@@ -59,7 +64,7 @@
           ></ion-textarea>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="record.is_client">
           <ion-label position="stacked">Known Medications</ion-label>
           <ion-textarea [(ngModel)]="record.known_medications" placeholder="Document known medications"></ion-textarea>
         </ion-item>
@@ -69,7 +74,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="record.is_client">
     <ion-card-header>
       <ion-card-subtitle>Cabin Assignment</ion-card-subtitle>
     </ion-card-header>
@@ -112,7 +117,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="record.is_client">
     <ion-card-header>
       <ion-card-subtitle>Case Management</ion-card-subtitle>
     </ion-card-header>
